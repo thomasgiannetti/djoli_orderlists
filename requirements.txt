@@ -1,0 +1,10 @@
+streamlit==1.22.0
+sqlalchemy
+pandas
+datetime
+uuid
+pdfkit
+jinja2
+fpdf
+pymysql
+streamlit-aggrid
