@@ -39,7 +39,7 @@ if df is not None:
 
     def purchase_list(orders_df):
 
-        liste_achat = orders_df.groupby(['name', 'options']).sum(['quantity'])
+        liste_achat = orders_df.fillna('NA').groupby(['name', 'options']).sum(['quantity'])
         liste_achat_html = liste_achat[['quantity']].to_html()
         return liste_achat_html
 
