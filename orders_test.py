@@ -12,6 +12,8 @@ st.write('**Récap J+1 et Liste Achats**')
 df = st.file_uploader('Importer les commandes Ecwid')
 if df is not None:
     df2 = pd.read_csv(df, sep=';')
+    df2['options'] = df2['options'].str.replace(r'Taille:|Mûrissement:|Tiges:|Feuilles:', '', regex=True).str.strip()
+    df2['options'] = df2['options'].str.replace('\n', ' ', regex=True)
 
     def order_list(orders_df):
         order_numbers = list(orders_df['order_number'].unique())
@@ -19,6 +21,7 @@ if df is not None:
         output_content = ""
 
         for order_number in order_numbers:
+            output_content += f"DJOLI CÔTE D'IVOIRE\n"
             output_content += f"{order_number}\n"
 
             # Filter the DataFrame for the current order
@@ -34,11 +37,15 @@ if df is not None:
             output_content += f"Total: {order_total}\n\n"
 
             for index, row in current_order.iterrows():
-                output_content += f"{row['name']} : {row['quantity']}\n"
+                if not pd.isna(row['options']):
+                    output_content += f"{row['name']} {row['options']} : {row['quantity']}\n"
+                else:
+                    output_content += f"{row['name']} : {row['quantity']}\n"
 
             output_content += "\n\n"
 
         return output_content
+
 
     def purchase_list(orders_df):
 
