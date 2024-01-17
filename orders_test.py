@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from datetime import datetime
+
+current_date = datetime.now().strftime("%y%m%d")
 
 st.title('Djoli Commandes J+1')
 
@@ -48,14 +51,16 @@ if df is not None:
     purchase_content = purchase_list(df2)
 
     # Provide a download link
+    recap_file_name = f"recap_{current_date}.txt"
     st.download_button(label="Télécharger le récap",
                     data=file_content,
-                    file_name='récap.txt',
+                    file_name = recap_file_name,
                     key='recap_button')
-
+    
+    purchase_file_name = f"achats_{current_date}.html"
     st.download_button(label="Télécharger la liste des achats",
                     data=purchase_content,
-                    file_name='achats.html',
+                    file_name = purchase_file_name,
                     key='purchase_button')
 
 else:
