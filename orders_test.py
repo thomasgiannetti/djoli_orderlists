@@ -21,7 +21,7 @@ if df is not None:
         output_content = ""
 
         for order_number in order_numbers:
-            output_content += f"DJOLI CÔTE D'IVOIRE\n"
+            output_content += f"DJOLI COTE D'IVOIRE\n"
             output_content += f"{order_number}\n"
 
             # Filter the DataFrame for the current order
