@@ -14,12 +14,14 @@ if df is not None:
     df2 = pd.read_csv(df, sep=';')
     df2['options'] = df2['options'].str.replace(r'Taille:|Mûrissement:|Tiges:|Feuilles:', '', regex=True).str.strip()
     df2['options'] = df2['options'].str.replace('\n', ' ', regex=True)
+    df2 = df2.sort_values('Zones')
 
     def order_list(orders_df):
         order_numbers = list(orders_df['order_number'].unique())
 
         output_content = ""
-
+        output_content += "\n\n"
+    
         for order_number in order_numbers:
             output_content += f"DJOLI COTE D'IVOIRE\n"
             output_content += f"{order_number}\n"
@@ -30,6 +32,9 @@ if df is not None:
             restaurant_name = current_order['Nom des Restaurants'].iloc[0]
             output_content += f"Client: {restaurant_name}\n"
 
+            zone = current_order['Zones'].iloc[0]
+            output_content += f"{zone}\n"
+            
             pickup_date = current_order['pickup_time'].iloc[0]
             output_content += f"HL: {pickup_date}\n\n"
 
@@ -42,6 +47,7 @@ if df is not None:
                 else:
                     output_content += f"{row['name']} : {row['quantity']}\n"
 
+            output_content += "\n\n"
             output_content += "\n\n"
 
         return output_content
