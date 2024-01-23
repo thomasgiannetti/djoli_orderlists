@@ -24,13 +24,16 @@ if df is not None:
     
         for order_number in order_numbers:
             output_content += f"DJOLI COTE D'IVOIRE\n"
+            output_content += "\n\n"
             output_content += f"{order_number}\n"
+            output_content += "\n\n"
 
             # Filter the DataFrame for the current order
             current_order = orders_df[orders_df['order_number'] == order_number]
 
             restaurant_name = current_order['Nom des Restaurants'].iloc[0]
             output_content += f"Client: {restaurant_name}\n"
+            output_content += "\n\n"
 
             zone = current_order['Zones'].iloc[0]
             output_content += f"{zone}\n"
@@ -40,6 +43,7 @@ if df is not None:
 
             order_total = current_order['order_total'].iloc[0]
             output_content += f"Total: {order_total}\n\n"
+            output_content += "\n\n"
 
             for index, row in current_order.iterrows():
                 if not pd.isna(row['options']):
