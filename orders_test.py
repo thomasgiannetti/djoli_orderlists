@@ -85,6 +85,8 @@ if df is not None:
                     output_content += f"{row['name']} {row['options']} : {row['quantity']}\n"
                 else:
                     output_content += f"{row['name']} : {row['quantity']}\n"
+            
+            output_content += "\n\n"
 
         return output_content
 
