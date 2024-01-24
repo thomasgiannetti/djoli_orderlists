@@ -55,6 +55,39 @@ if df is not None:
             output_content += "\n\n"
 
         return output_content
+    
+    def order_listA4(orders_df):
+        order_numbers = list(orders_df['order_number'].unique())
+
+        output_content = ""
+    
+        for order_number in order_numbers:
+            output_content += f"DJOLI COTE D'IVOIRE\n"
+            output_content += f"{order_number}\n"
+
+            # Filter the DataFrame for the current order
+            current_order = orders_df[orders_df['order_number'] == order_number]
+
+            restaurant_name = current_order['Nom des Restaurants'].iloc[0]
+            output_content += f"Client: {restaurant_name}\n"
+
+            zone = current_order['Zones'].iloc[0]
+            output_content += f"{zone}\n"
+            
+            pickup_date = current_order['pickup_time'].iloc[0]
+            output_content += f"HL: {pickup_date}\n\n"
+
+            order_total = current_order['order_total'].iloc[0]
+            output_content += f"Total: {order_total}\n\n"
+
+            for index, row in current_order.iterrows():
+                if not pd.isna(row['options']):
+                    output_content += f"{row['name']} {row['options']} : {row['quantity']}\n"
+                else:
+                    output_content += f"{row['name']} : {row['quantity']}\n"
+
+        return output_content
+
 
 
     def purchase_list(orders_df):
@@ -65,6 +98,7 @@ if df is not None:
 
     # Generate the content for the file
     file_content = order_list(df2)
+    file_contentA4 = order_listA4(df2)
     purchase_content = purchase_list(df2)
 
     # Provide a download link
@@ -72,7 +106,13 @@ if df is not None:
     st.download_button(label="Télécharger le récap",
                     data=file_content,
                     file_name = recap_file_name,
-                    key='recap_button')
+                    key='recap_button_tickets')
+
+    recap_file_nameA4 = f"recapA4_{current_date}.txt"
+    st.download_button(label="Télécharger le récap A4",
+                    data=file_contentA4,
+                    file_name = recap_file_nameA4,
+                    key='recap_button_A4')
     
     purchase_file_name = f"achats_{current_date}.html"
     st.download_button(label="Télécharger la liste des achats",
